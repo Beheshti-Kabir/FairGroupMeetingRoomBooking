@@ -6,16 +6,18 @@ import 'dart:ui';
 import 'package:auto_graph_meeting_room_booking/booking.dart';
 import 'package:auto_graph_meeting_room_booking/changePassword.dart';
 import 'package:auto_graph_meeting_room_booking/checkAvalability.dart';
+import 'package:auto_graph_meeting_room_booking/constant.dart';
 import 'package:auto_graph_meeting_room_booking/createNewUser.dart';
 import 'package:auto_graph_meeting_room_booking/homePage.dart';
 import 'package:auto_graph_meeting_room_booking/lobby.dart';
-import 'package:auto_graph_meeting_room_booking/room1.dart';
+import 'package:auto_graph_meeting_room_booking/roomDetails.dart';
 import 'package:auto_graph_meeting_room_booking/room2.dart';
 import 'package:auto_graph_meeting_room_booking/room3.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
         '/lobby': (BuildContext context) => LobbyPage(),
         '/changePassword': (BuildContext context) => ChangePasswordPage(),
         '/createNewUser': (BuildContext context) => CreateNewUserPage(),
-        '/room1': (BuildContext context) => MeetingRoom1(),
+        '/roomDetails': (BuildContext context) => RoomDetails(),
         '/room2': (BuildContext context) => MeetingRoom2(),
         '/room3': (BuildContext context) => MeetingRoom3(),
         '/booking': (BuildContext context) => BookingPage(),
@@ -56,7 +58,7 @@ late String password;
 
 Future<dynamic> getAuth() async {
   response = await http.post(
-      Uri.parse('http://10.100.17.45/fair_meeting/api/user/login'),
+      Uri.parse('http://10.100.10.74/meeting_booking/api/user/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -65,12 +67,12 @@ Future<dynamic> getAuth() async {
         'email': email,
         'password': password,
       }));
-    if ((response.statusCode == 200)) {
-      return json.decode(response.body);
-    } else {
-      return 'Network Issue';
-      //  throw Exception("Failed to load Data");
-    }
+  if ((response.statusCode == 200)) {
+    return json.decode(response.body);
+  } else {
+    return 'Network Issue';
+    //  throw Exception("Failed to load Data");
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -84,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _emailValidate = false;
   bool _passwordValidate = false;
   //logInValidator(){}
+
+  String userName = '';
 
   bool formValidator() {
     String email = _emailController.text;
@@ -244,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         backgroundColor: Colors.red,
                         textColor: Colors.green[100],
                         fontSize: 16.0);
-                    Navigator.of(context).pushNamed('/homePage');
+                    //Navigator.of(context).pushNamed('/lobby');
                     bool isValid = formValidator();
                     print(_emailController.text);
                     print(_passwordController.text);
@@ -253,43 +257,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (EmailValidator.validate(_emailController.text)) {
                         email = _emailController.text;
                         password = _passwordController.text;
-                        var result  = await getAuth();
-                        print('result= '+result['status'].toString());
+                        var result = await getAuth();
+                        print('result= ' + result['status'].toString());
                         if (result['status']) {
-                          // if (_emailController.toString() == 'room1') {
-                          //   Fluttertoast.showToast(
-                          //     msg: "Logging In To Meeting Room 1",
-                          //     toastLength: Toast.LENGTH_SHORT,
-                          //     gravity: ToastGravity.TOP,
-                          //     timeInSecForIosWeb: 1,
-                          //     backgroundColor: Colors.red,
-                          //     textColor: Colors.green[100],
-                          //     fontSize: 16.0);
-                          //   Navigator.of(context).pushNamed('/room1');
-                          // } else if (_emailController.toString() == 'room2') {
-                          //   Fluttertoast.showToast(
-                          //     msg: "Logging In To Meeting Room 2",
-                          //     toastLength: Toast.LENGTH_SHORT,
-                          //     gravity: ToastGravity.TOP,
-                          //     timeInSecForIosWeb: 1,
-                          //     backgroundColor: Colors.red,
-                          //     textColor: Colors.green[100],
-                          //     fontSize: 16.0);
-                          //   Navigator.of(context).pushNamed('/room2');
-                          // } else if (_emailController.toString() == 'room3') {
-                          //   Fluttertoast.showToast(
-                          //     msg: "Logging In To Meeting Room 3",
-                          //     toastLength: Toast.LENGTH_SHORT,
-                          //     gravity: ToastGravity.TOP,
-                          //     timeInSecForIosWeb: 1,
-                          //     backgroundColor: Colors.red,
-                          //     textColor: Colors.green[100],
-                          //     fontSize: 16.0);
-                          //   Navigator.of(context).pushNamed('/room3');
-                          // } else {
+                          Constants.userName = result['user']['name'];
+                          Constants.token = result['token_type'] +
+                              ' ' +
+                              result['access_token'];
+                          print(Constants.token);
                           Navigator.of(context).pushNamed('/lobby');
-                          //}
-
                         } else {
                           Fluttertoast.showToast(
                               msg: "Wrong UserID or Password",
@@ -339,6 +315,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Colors.white10,
+      //   items: [],
+      // ),
     );
   }
 }

@@ -50,6 +50,7 @@ dependencies:
   flutter_screenutil: ^5.2.0
   email_validator: ^2.0.1
   flutter_simple_treeview: ^3.0.1
+  shared_preferences: ^2.0.13
   #geolocator: ^8.0.1
   #location: ^4.3.0 
 
