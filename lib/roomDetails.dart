@@ -89,11 +89,12 @@ class _roomDetails extends State<RoomDetails> {
       },
     );
 
-    dataJSON = jsonDecode(response.body)['data'];
+    dataJSON = jsonDecode(response.body)['data']['meeting_list'];
     dataCount = dataJSON.length;
     print(dataCount.toString());
-    roomName = dataJSON[0]['room']['title'];
-    officeName = dataJSON[0]['office']['title'];
+    roomName = jsonDecode(response.body)['data']['room_details']['title'];
+    officeName =
+        jsonDecode(response.body)['data']['room_details']['office']['title'];
 
     print('data is here');
 
@@ -138,6 +139,7 @@ class _roomDetails extends State<RoomDetails> {
                   Container(
                     child: Text(
                       roomName.toString(),
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.mcLaren(
                         fontSize: 35.0,
                         color: Colors.cyan[100],
@@ -146,7 +148,7 @@ class _roomDetails extends State<RoomDetails> {
                     ),
                     alignment: Alignment.center,
                     color: Colors.cyan,
-                    height: 80.0,
+                    height: 110.0,
                     width: MediaQuery.of(context).size.width,
                   ),
                   Container(
@@ -159,7 +161,7 @@ class _roomDetails extends State<RoomDetails> {
                       ),
                     ),
                     alignment: Alignment.center,
-                    color: Colors.cyan,
+                    color: Colors.cyan[300],
                     height: 50.0,
                     width: MediaQuery.of(context).size.width,
                   ),
@@ -169,171 +171,189 @@ class _roomDetails extends State<RoomDetails> {
                   //if (room1.isNotEmpty)
                   Column(
                     children: <Widget>[
-                      ListView.builder(
-                          itemCount: meetingTitleList.length,
-                          primary: false,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index2) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 4.0, bottom: 10.0, right: 4.0),
-                              child: Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.cyan,
-                                      width: 3.0,
+                      (dataCount > 0)
+                          ? ListView.builder(
+                              itemCount: meetingTitleList.length,
+                              primary: false,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index2) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, bottom: 10.0, right: 4.0),
+                                  child: Container(
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.cyan,
+                                          width: 3.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Table(
+                                      defaultColumnWidth:
+                                          FixedColumnWidth(180.0),
+                                      border: null,
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      children: [
+                                        TableRow(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              'Meeting Title:',
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              meetingTitleList[index2]
+                                                  .toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                        TableRow(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              'Agenda:',
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              agendaList[index2].toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                        TableRow(children: [
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4.0),
+                                              child: Text(
+                                                'Chaired With:',
+                                                style: GoogleFonts.mcLaren(
+                                                    color: Colors.cyanAccent),
+                                              )),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              chairedWithList[index2]
+                                                  .toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                        TableRow(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              'Total Participants:',
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              participantsList[index2]
+                                                  .toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                        TableRow(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              'Meeting Date:',
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              meetingDateList[index2]
+                                                  .toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                        TableRow(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              'Start Time:',
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              startTimeList[index2].toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                        TableRow(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              'End Time:',
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Text(
+                                              endTimeList[index2].toString(),
+                                              style: GoogleFonts.mcLaren(
+                                                  color: Colors.cyanAccent),
+                                            ),
+                                          ),
+                                        ]),
+                                      ],
                                     ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Table(
-                                  defaultColumnWidth: FixedColumnWidth(180.0),
-                                  border: null,
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          'Meeting Title:',
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          meetingTitleList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          'Agenda:',
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          agendaList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 4.0),
-                                          child: Text(
-                                            'Chaired With:',
-                                            style: GoogleFonts.mcLaren(
-                                                color: Colors.cyanAccent),
-                                          )),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          chairedWithList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          'Total Participants:',
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          participantsList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          'Meeting Date:',
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          meetingDateList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          'Start Time:',
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          startTimeList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          'End Time:',
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          endTimeList[index2].toString(),
-                                          style: GoogleFonts.mcLaren(
-                                              color: Colors.cyanAccent),
-                                        ),
-                                      ),
-                                    ]),
-                                  ],
+                                  ),
+                                );
+                              })
+                          : Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "No Meeting",
+                                style: GoogleFonts.mcLaren(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.cyanAccent,
                                 ),
                               ),
-                            );
-                          })
+                            )
                     ],
                   ),
 
@@ -355,7 +375,7 @@ class _roomDetails extends State<RoomDetails> {
                             elevation: 7.0,
                             child: Center(
                               child: Text(
-                                "Day Long Plan",
+                                "Dash Board",
                                 style: GoogleFonts.mcLaren(
                                   color: Colors.white,
                                 ),
