@@ -8,8 +8,10 @@ import 'package:auto_graph_meeting_room_booking/changePassword.dart';
 import 'package:auto_graph_meeting_room_booking/checkAvalability.dart';
 import 'package:auto_graph_meeting_room_booking/constant.dart';
 import 'package:auto_graph_meeting_room_booking/createNewUser.dart';
+import 'package:auto_graph_meeting_room_booking/dashBoard.dart';
 import 'package:auto_graph_meeting_room_booking/homePage.dart';
 import 'package:auto_graph_meeting_room_booking/lobby.dart';
+import 'package:auto_graph_meeting_room_booking/officeDetails.dart';
 import 'package:auto_graph_meeting_room_booking/roomDetails.dart';
 import 'package:auto_graph_meeting_room_booking/room2.dart';
 import 'package:auto_graph_meeting_room_booking/room3.dart';
@@ -42,6 +44,8 @@ class MyApp extends StatelessWidget {
         '/booking': (BuildContext context) => BookingPage(),
         '/checkAvalability': (BuildContext context) => CheckAvailabilityPage(),
         '/homePage': (BuildContext context) => HomePage(),
+        '/officeDetails': (BuildContext context) => OfficeDetails(),
+        '/dashBoard': (BuildContext context) => DashBoardPage(),
         // '/summery': (BuildContext context) => SummeryPage(),
         // '/newlead': (BuildContext context) => NewLead(),
         // '/newleadtransaction': (BuildContext context) => NewLeadTransaction(),
@@ -126,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                     padding: EdgeInsets.fromLTRB(15.0, 150.0, 0.0, 0.0),
                     child: Text(
-                      'AutoGraph',
+                      'Fair Group',
                       style: GoogleFonts.mcLaren(
                           color: Colors.green[600],
                           fontSize: 60,

@@ -31,14 +31,6 @@ class _homePage extends State<HomePage> {
 
   late dynamic response;
 
-  late var totalInvoice = '';
-  late var totalPna = '';
-  late var totalFollowUp = '';
-  late var totalLead = '';
-  late var totalCancel = '';
-  late var totalInProgress = '';
-  late var totalNoAnswer = '';
-
   late var roomBookings;
   late var autoGraph;
   late var headOffice;
@@ -47,8 +39,6 @@ class _homePage extends State<HomePage> {
   late var officeDataJSON;
   late var bookingDataJSON;
   var officeNumber = 0;
-
-  late String stepType = '';
 
   List<dynamic> roomNameList = [];
   List<dynamic> roomCapacityList = [];
@@ -111,7 +101,7 @@ class _homePage extends State<HomePage> {
     return finalAnswer;
   }
 
-  getStepType() async {
+  getData() async {
     // setState(() {
     //   isLoading = true;
     //   print("isLoading");
@@ -120,7 +110,7 @@ class _homePage extends State<HomePage> {
     //   //print("lead=" + json.decode(response.body)['totalLead']);
     //   // result['leadInfo'];
     // });
-    print('inside getStepType');
+    print('inside getData');
     response = await http.get(
       Uri.parse('http://10.100.10.74/meeting_booking/api/user/room-show'),
       headers: <String, String>{
@@ -226,7 +216,7 @@ class _homePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (!gotData) {
-      getStepType();
+      getData();
       gotData = true;
     }
 

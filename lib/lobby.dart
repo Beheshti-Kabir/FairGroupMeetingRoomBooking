@@ -243,7 +243,7 @@ class _lobbyPage extends State<LobbyPage> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushNamed('/homePage');
+                            Navigator.of(context).pushNamed('/officeDetails');
                           },
                           child: SizedBox(
                             height: buttonHeight,
@@ -255,7 +255,7 @@ class _lobbyPage extends State<LobbyPage> {
                               elevation: 7.0,
                               child: Center(
                                 child: Text(
-                                  'Dash Board',
+                                  'Offices',
                                   style: GoogleFonts.mcLaren(
                                     fontSize: textSize,
                                     color: Colors.yellow[100],
